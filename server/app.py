@@ -2,7 +2,7 @@
 
 from flask import Flask, make_response, jsonify
 from flask_migrate import Migrate
-from sqlalchemy import desc, asc
+from sqlalchemy import desc
 
 from models import db, Bakery, BakedGood
 
