@@ -23,36 +23,17 @@ def index():
 
 @app.route('/bakeries')
 def bakeries():
-    bakeries = []
-
-    for bakery in Bakery.query.all():
-        bakeries.append(bakery.to_dict())
-
-    return make_response(bakeries, 200)
+    return make_response([bakery.to_dict() for bakery in Bakery.query.all()], 200)
 
 
 @app.route('/bakeries/<int:id>')
 def bakery_by_id(id):
-    bakery = Bakery.query.filter_by(id=id).first()
-
-    if bakery:
-        body = bakery.to_dict()
-        status = 200
-    else:
-        body = {'message': f'Bakery {id} not found.'}
-        status = 404
-
     return make_response((Bakery.query.filter_by(id=id).first().to_dict(), 200) if (Bakery.query.filter_by(id=id).first()) else ({'message': f'Bakery {id} not found.'}, 400))
 
 
 @app.route('/baked_goods/by_price')
 def baked_goods_by_price():
-    baked_goods = []
-
-    for baked_good in BakedGood.query.order_by(desc(BakedGood.price)).all():
-        baked_goods.append(baked_good.to_dict())
-
-    return make_response(baked_goods, 200)
+    return make_response([baked_good.to_dict() for baked_good in BakedGood.query.order_by(desc(BakedGood.price)).all()], 200)
 
 
 @app.route('/baked_goods/most_expensive')
