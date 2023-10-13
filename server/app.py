@@ -42,7 +42,7 @@ def bakery_by_id(id):
         body = {'message': f'Bakery {id} not found.'}
         status = 404
 
-    return make_response(body, status)
+    return make_response((Bakery.query.filter_by(id=id).first().to_dict(), 200) if (Bakery.query.filter_by(id=id).first()) else ({'message': f'Bakery {id} not found.'}, 400))
 
 
 @app.route('/baked_goods/by_price')
@@ -57,9 +57,7 @@ def baked_goods_by_price():
 
 @app.route('/baked_goods/most_expensive')
 def most_expensive_baked_good():
-    baked_good = BakedGood.query.order_by(desc(BakedGood.price)).first()
-
-    return make_response(baked_good.to_dict(), 200)
+    return make_response(BakedGood.query.order_by(desc(BakedGood.price)).first().to_dict(), 200)
 
 
 if __name__ == '__main__':
